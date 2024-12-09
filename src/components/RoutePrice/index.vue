@@ -4,7 +4,7 @@
       <div class="content-wrapper">
         <div class="map-price-form-wrapper">
           <h2 class="map-price-form-title">线路运输单价</h2>
-          <div class="map-price-form-row">
+          <div class="map-price-form-row" v-show="vip">
             <Multiselect
                 v-model="selectedMine"
                 :options="mineOptions"
@@ -26,7 +26,7 @@
           </div>
         </div>
         <!-- Baidu Map added below -->
-        <div id="map" style="width: 100%; height: 300px; margin-top: 20px;"></div>
+        <div id="map" style="width: 100%; height: 250px; margin-top: 20px;"></div>
       </div>
       <i></i>
       <i></i>
@@ -50,6 +50,14 @@ const mineOptions = [
   { name: "宝鸡", value: { lng: 107.237974, lat: 34.361979 } },
   { name: "咸阳", value: { lng: 108.708991, lat: 34.329605 } },
 ];
+
+// 接收 prop 数据
+const props = defineProps({
+  vip: {
+      type: Boolean,
+      default: true
+  }
+});
 
 let map = null;
 let autocomplete = null;
@@ -128,12 +136,10 @@ onMounted(() => {
 @import '@/styles/variables/variables.module';
 
 .map-price-container {
-  position: absolute;
-  left: 67%;
-  top: 120px;
   width: 400px;
-  height: 450px;
+  height: auto;
   overflow: hidden;
+  // padding: 16px;
   border: 2px solid rgba(91, 166, 255, 0.4);
 
   .multiselect {
@@ -143,7 +149,7 @@ onMounted(() => {
   .animate-border {
     position: relative;
     width: 100%;
-    height: 100%;
+    // height: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -213,6 +219,7 @@ onMounted(() => {
 
     .content-wrapper {
       width: 90%;
+      padding-bottom: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;

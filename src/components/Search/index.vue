@@ -1,32 +1,30 @@
 <template>
     <div class="shipment-costs-search-container">
-      <img src="@/assets/images/card.png" alt="404">
       <div class="shipment-costs-search-form-wrapper">
         <h2 class="shipment-costs-search-form-title">运价指数查询</h2>
-        <div class="shipment-costs-search-form-item">
+        <div class="shipment-costs-search-form-item" v-show="vip">
           <el-config-provider :locale="zhCn">
             <el-date-picker
                 v-model="selectedDate"
                 type="date"
                 placeholder="选择日期"
                 class="form-input"
-                popper-class=""
                 :locale="zhCn"
             />
           </el-config-provider>
         </div>
-        <div class="shipment-costs-search-form-item">
+        <div class="shipment-costs-search-form-item" v-show="vip">
           <Multiselect
               v-model="selectedMine"
               :options="mineOptions"
+              size="mini"
               placeholder="请输入装货煤矿"
               :searchable="true"
               :allow-empty="false"
               class="form-input"
-              popper-class=""
           />
         </div>
-        <div class="shipment-costs-search-form-item">
+        <div class="shipment-costs-search-form-item" v-show="vip">
           <Multiselect
               v-model="selectedPort"
               :options="portOptions"
@@ -37,7 +35,7 @@
               popper-class=""
           />
         </div>
-        <div class="shipment-costs-search-form-item">
+        <div class="shipment-costs-search-form-item" v-show="vip">
           <Multiselect
               v-model="selectedCoalType"
               :options="coalTypeOptions"
@@ -48,8 +46,15 @@
               popper-class="custom-popper"
           />
         </div>
-        <div class="shipment-costs-search-form-item">
+        <div class="shipment-costs-search-form-item" v-show="vip">
           <el-button type="primary" class="form-button" @click="emitSearch">查询</el-button>
+        </div>
+
+        <div class="shipment-costs-search-form-item" style="color: bisque; " v-show="!vip">
+          {{ getTime() }}
+        </div>
+        <div class="shipment-costs-search-form-item" style="color: bisque; padding-bottom: 180px;" v-show="!vip">
+          今日运价指数：{{ getIndex() }}
         </div>
       </div>
     </div>
@@ -62,6 +67,13 @@ import "element-plus/dist/index.css";
 import {ElDatePicker, ElButton, ElConfigProvider} from "element-plus";
 import Multiselect from "@vueform/multiselect";
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
+// 接收 prop 数据
+const props = defineProps({
+  vip: {
+      type: Boolean,
+      default: true
+  }
+});
 
 const selectedDate = ref(null);
 const selectedMine = ref(null);
@@ -72,6 +84,31 @@ const emit = defineEmits(["onSearch"]);
 const mineOptions = ["煤矿A", "煤矿B", "煤矿C"];
 const portOptions = ["卸货点A", "卸货点B", "卸货点C"];
 const coalTypeOptions = ["煤种A", "煤种B", "煤种C"];
+
+const getTime = () => {
+  // 获取当前时间
+  const now = new Date();
+
+  // 将当前时间格式化为 YYYY.MM.DD 格式
+  return now.toISOString().slice(0, 10).replace('-', '.');
+}
+
+const getIndex = () => {
+
+  return getRandomNumber();
+}
+
+function getRandomNumber() {
+  // 生成一个介于 0 和 1 之间的随机数
+  const random = Math.random();
+  
+  // 将随机数转换为 50 到 500 之间的随机数，并保留两位小数
+  const result = (random * (500 - 50) + 50).toFixed(2);
+  
+  return result;
+}
+
+
 
 const emitSearch = () => {
   const searchParams = {
@@ -87,36 +124,27 @@ const emitSearch = () => {
 
 <style lang="scss" scoped>
 @import '@/styles/variables/variables.module';
-
-img {
-  width: 360px;
-  height: 340px;
-  margin-top: 20px;
-}
-
 .shipment-costs-search-container {
-  position: absolute;
-  left: 50px;
-  top: 90px;
+  overflow: hidden;
+  background-image: url('@/assets/images/card.png');
+  background-size: 100% 100%;
+  // top: 90px;
+  padding: 24px 36px 8px;
+  display: inline-block;
+  width: 300px;
 }
 
 .shipment-costs-search-form-title {
   color: #3ad9ff;
   font-size: 24px;
-  margin-top: 20px;
 }
 
 .shipment-costs-search-form-wrapper {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  width: 100%;
 }
 
 .shipment-costs-search-form-item {
+  margin: 16px 0;
   display: flex;
   flex-direction: column;
 }

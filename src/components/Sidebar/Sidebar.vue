@@ -6,9 +6,8 @@
         <span class="arrow" :class="{ 'arrow-down': isExpanded }"></span>
       </div>
       <div class="submenu" v-if="isExpanded">
-        <router-link to="/shipment-costs" class="sidebar-link">运价指数</router-link>
+        <router-link to="/shipment-costs" class="sidebar-link">运价统计-VIP</router-link>
         <router-link to="/shipment-statistics" class="sidebar-link">运价统计</router-link>
-        <router-link to="/carriers" class="sidebar-link">承运商专用</router-link>
       </div>
     </div>
   </div>

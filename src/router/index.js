@@ -1,5 +1,4 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
-import CarrierDashboard from '@/views/CarrierDashboard.vue';
 import ShipmentCosts from '@/views/ShipmentCosts.vue';
 import ShipmentStatistics from '@/views/ShipmentStatistics.vue';
 
@@ -17,12 +16,7 @@ const routes = [
         path: '/shipment-statistics',
         name: 'ShipmentStatistics',
         component: ShipmentStatistics,
-    },
-    {
-        path: '/carriers',
-        name: 'CarrierDashboard',
-        component: CarrierDashboard,
-    },
+    }
 ];
 
 const router = createRouter({
